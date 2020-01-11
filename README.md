@@ -27,12 +27,13 @@ $ dnf install tesseract-langpack-fra
 
 # Installation
 
-Download the script in this repository and move it to the Nautilus Scripts
+Download `nautilus-ocr.sh` and move it to the Nautilus Scripts
 folder. If you downloaded the script to `~/Downloads` folder:
 
 ```bash
 $ chmod +x ~/Downloads/nautilus-ocr.sh
 $ mv ~/Downloads/nautilus-ocr.sh "~/.local/share/nautilus/scripts/Create OCR'ed PDF"
+```
 
 Once the script is in place, you can righ-click on any file in Nautilus:
 
