@@ -37,7 +37,7 @@ $ mv ~/Downloads/nautilus-ocr.sh "~/.local/share/nautilus/scripts/Create OCR'ed 
 
 Once the script is in place, you can righ-click on any file in Nautilus:
 
-![Nautilus, right-click](https://raw.githubusercontent.com/daniperez/nautilus-ocr/master/img/right-click.png)
+<img src="https://raw.githubusercontent.com/daniperez/nautilus-ocr/master/img/right-click.png" alt="nautilus-ocr right-click" width="500">
 
 It will create a file with the `_ocr` suffix. That file will contain OCR information. If you 
 can select text in that file, it means the OCR worked.
