@@ -32,8 +32,9 @@ $ dnf install tesseract-langpack-fra
 
 # Installation
 
-*(Click to see screencast)*
-[![Installation](https://raw.githubusercontent.com/daniperez/nautilus-ocr/master/img/nautilus-ocr-installation-poster.png)](https://raw.githubusercontent.com/daniperez/nautilus-ocr/master/img/nautilus-ocr-installation.webm)
+*(Click on image to see screencast)*
+
+<a href="//raw.githubusercontent.com/daniperez/nautilus-ocr/master/img/nautilus-ocr-installation.webm"><img width=500 alt="Installation" src="https://raw.githubusercontent.com/daniperez/nautilus-ocr/master/img/nautilus-ocr-installation-poster.png"></img></a>
 
 Download `nautilus-ocr.sh` and move it to the Nautilus Scripts
 folder. Remember to add the execution permission. If you downloaded 
