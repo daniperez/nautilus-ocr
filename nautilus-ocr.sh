@@ -105,10 +105,10 @@ ocr_files() {
             echo "# Finished processing $NUM_FILES file(s)."
         ) |
         zenity --progress \
+          # --auto-close \
           --title="OCR'ing $NUM_FILES file(s)..." \
           --text="Starting..." \
           --percentage=0
-          --auto-close
 
         if [ "$?" -eq 1 ]; then
             exit
