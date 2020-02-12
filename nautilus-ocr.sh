@@ -3,22 +3,22 @@
 main() {
 
     # Choose a language (3 letters) if you don't
-    # want to show a dialog to select languages., 
+    # want to show a dialog to select languages. 
     # The language has to be supported by Tesseract.
     #
     #LANGUAGE="eng"
 
-	FILES=($NAUTILUS_SCRIPT_SELECTED_FILE_PATHS)
+    FILES="$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS"
 
     check_dependencies
 
-    check_files $FILES
+    check_files "$FILES"
 
     if [ "${LANGUAGE}none" = "none" ]; then
         LANGUAGE=$(choose_language)
     fi
 
-    ocr_files $FILES $LANGUAGE
+    ocr_files "$FILES" $LANGUAGE
 }
 
 choose_language() {
@@ -56,59 +56,66 @@ check_dependencies() {
 
 check_files() {
 
-    FILES=$1
+    FILES="$1"
 
-	for filename in ${FILES[@]}; do
+    echo "$FILES" | while read FILE; do
 
-        file "$filename" | grep PDF &> /dev/null
+	if [ -n "$FILE" ]; then 
+            # zenity --width=640 --error --text="File $FILE."
 
-        if [[ $? != 0 ]]; then 
-            zenity --width=640 --error --text="File $filename is not a pdf: $(file "$filename")" && exit 1
-            if [ "$?" -eq 1 ]; then
-                exit
+            FILETYPE=$(file "$FILE")
+            
+            echo "$FILETYPE" | grep PDF &> /dev/null
+
+            if [[ $? != 0 ]]; then 
+                zenity --width=640 --error --text="File $FILE is not a pdf:\n$FILETYPE" && exit 1
+                if [ "$?" -eq 1 ]; then
+                    exit
+                fi
             fi
-        fi
 
+        fi
     done
 }
 
 ocr_files() {
 
-    FILES=$1
+    FILES="$1"
     LANGUAGE=$2
 
     if [[ "${LANGUAGE}none" != "none" ]]; then
 
-        FILES=($NAUTILUS_SCRIPT_SELECTED_FILE_PATHS)
-        NUM_FILES=${#FILES[@]}
+        NUM_FILES=$(echo "$FILES" | wc -l)
+        NUM_FILES=$(($NUM_FILES - 1))
 
         (
-            i=0
+            i=0 
 
-            for filename in ${FILES[@]}; do
+            echo "$FILES" | while read FILE; do
 
-                percentage=$(bc -l <<< "($i/$NUM_FILES)*100")
+                if [ -n "$FILE" ]; then 
+                    PERCENTAGE=$(bc -l <<< "($i/$NUM_FILES)*100")
 
-                echo "# Processing '$(basename $filename)' ($((i+1))/$NUM_FILES)"
-                echo "${percentage%.*}"
+                    echo "# Processing " $(basename "$FILE") "($((i+1))/$NUM_FILES)"
+                    echo "${PERCENTAGE%.*}"
 
-                i=$(($i+1))
+                    i=$(($i+1))
 
-                OUTPUT=$(ocr_file $filename $LANGUAGE)
-               
-                if [ $? -ne 0 ]; then
-                    zenity --width 500 --error --text="$OUTPUT"
+                    OUTPUT=$(ocr_file "$FILE" $LANGUAGE)
+           
+                    if [ $? -ne 0 ]; then
+                        zenity --width 500 --error --text="$OUTPUT"
+                    fi
                 fi
-                
             done
 
             echo "# Finished processing $NUM_FILES file(s)."
         ) |
         zenity --progress \
-          # --auto-close \
           --title="OCR'ing $NUM_FILES file(s)..." \
           --text="Starting..." \
           --percentage=0
+          --auto-close
 
         if [ "$?" -eq 1 ]; then
             exit
@@ -120,10 +127,11 @@ ocr_files() {
 }
 
 ocr_file() {
-    FILE=$1
-    LANGUAGE=$2
+    FILE="$1"
+    LANGUAGE="$2"
+    FILE_NO_EXTENSION=$(basename "${FILE%.*}")
 
-    ocrmypdf --redo-ocr -l "$LANGUAGE" "$FILE" "$(basename ${FILE%.*})_ocr.pdf" 2>&1
+    ocrmypdf --redo-ocr -l "$LANGUAGE" "$FILE" "${FILE_NO_EXTENSION}_ocr.pdf" 2>&1
 }
 
 main
