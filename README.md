@@ -6,6 +6,10 @@ and want to make them searcheable or copy-paste content from them.
 
 <img src="https://raw.githubusercontent.com/daniperez/nautilus-ocr/master/img/right-click.png" alt="nautilus-ocr right-click" width="500">
 
+<img src="https://raw.githubusercontent.com/daniperez/nautilus-ocr/master/img/language-dialog.png" alt="nautilus-ocr language dialog" width="200">
+
+It allows selecting the language in the PDF for a better recognition of the text.
+
 
 # Requirements
 
