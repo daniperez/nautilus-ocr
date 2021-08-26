@@ -25,6 +25,12 @@ You can install all the dependencies in Fedora as follows:
 $ dnf install tesseract tesseract-osd ocrmypdf zenity
 ```
 
+In Ubuntu it would
+
+```bash
+$ sudo apt install tesseract-ocr tesseract-ocr-osd ocrmypdf zenity
+```
+
 Similar packages might exist for your distribution of choice.
 
 You might also want to add training data for other languages. In Fedora
@@ -32,6 +38,10 @@ you can install, for example, French language as follows:
 
 ```bash
 $ dnf install tesseract-langpack-fra
+```
+In Ubuntu, it would be:
+```bash
+$ sudo apt install tesseract-ocr-fra
 ```
 
 # Installation
