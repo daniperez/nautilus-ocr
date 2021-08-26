@@ -25,7 +25,7 @@ You can install all the dependencies in Fedora as follows:
 $ dnf install tesseract tesseract-osd ocrmypdf zenity
 ```
 
-In Ubuntu it would
+In Ubuntu you would instead do:
 
 ```bash
 $ sudo apt install tesseract-ocr tesseract-ocr-osd ocrmypdf zenity
