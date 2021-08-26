@@ -40,7 +40,7 @@ check_dependencies() {
 
     ZENITY_VERSION=$(type zenity &> /dev/null && zenity --version | tr -d '\n')
     TESSERACT_VERSION=$(type tesseract &> /dev/null && tesseract --version | head -1 |  cut -d' ' -f2 | tr -d '\n')
-    TESSERACT_OSD_DATA=/usr/share/tesseract/tessdata/osd.traineddata
+    TESSERACT_OSD_DATA=/usr/share/tesseract-ocr/4.00/tessdata/osd.traineddata
     OCRMYPDF_VERSION=$(type ocrmypdf &> /dev/null && ocrmypdf --version | tr -d '\n')
 
     if [[ "${ZENITY_VERSION}none" = "none" ]]; then
@@ -131,7 +131,7 @@ ocr_file() {
     LANGUAGE="$2"
     FILE_NO_EXTENSION=$(basename "${FILE%.*}")
 
-    ocrmypdf --redo-ocr -l "$LANGUAGE" "$FILE" "${FILE_NO_EXTENSION}_ocr.pdf" 2>&1
+    ocrmypdf -l "$LANGUAGE" "$FILE" "${FILE_NO_EXTENSION}_ocr.pdf" 2>&1
 }
 
 main
