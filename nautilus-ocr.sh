@@ -170,7 +170,11 @@ ocr_file() {
     LANGUAGE="$2"
     FILE_NO_EXTENSION=$(basename "${FILE%.*}")
 
-    ocrmypdf -l "$LANGUAGE" "$FILE" "${FILE_NO_EXTENSION}_ocr.pdf" 2>&1
+    # Need to either --skip-text (re-use existing OCR
+    # text) or --redo-ocr (always ocr the pdf and add the
+    # resulting text). If not, ocrmypdf will fail with
+    # already ocr'ed pdfs.
+    ocrmypdf --skip-text -l "$LANGUAGE" "$FILE" "${FILE_NO_EXTENSION}_ocr.pdf" 2>&1
 }
 
 main
