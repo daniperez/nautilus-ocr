@@ -64,3 +64,7 @@ the language at [the top of the file](https://github.com/daniperez/nautilus-ocr/
 ## Close on finish
 A dialog will be showed after OCR'ing the files, stating that the process 
 has finished. If you want to close the dialog automatically, just [uncomment the option `--auto-close`](https://github.com/daniperez/nautilus-ocr/blob/bdcf6579b98d48db05873b58d5d8e225cd453f3f/nautilus-ocr.sh#L108).
+
+# Contributors
+
+- @errotu: Debian support
