@@ -40,7 +40,7 @@ check_dependencies() {
 
     ZENITY_VERSION=$(type zenity &> /dev/null && zenity --version | tr -d '\n')
     TESSERACT_VERSION=$(type tesseract &> /dev/null && tesseract --version | head -1 |  cut -d' ' -f2 | tr -d '\n')
-    TESSERACT_OSD_DATA=/usr/share/tesseract-ocr/4.00/tessdata/osd.traineddata
+    TESSERACT_OSD_DATA=$(get_tesseract_osd_data_path)
     OCRMYPDF_VERSION=$(type ocrmypdf &> /dev/null && ocrmypdf --version | tr -d '\n')
 
     if [[ "${ZENITY_VERSION}none" = "none" ]]; then
@@ -52,6 +52,45 @@ check_dependencies() {
 
         exit 1
     fi
+}
+
+get_tesseract_osd_data_path() {
+
+    if [ -f /etc/os-release ]; then
+        # freedesktop.org and systemd
+        . /etc/os-release
+        OS=$ID
+        VER=$VERSION_ID
+    elif type lsb_release >/dev/null 2>&1; then
+        # linuxbase.org
+        OS=$(lsb_release -si)
+        VER=$(lsb_release -sr)
+    elif [ -f /etc/lsb-release ]; then
+        # For some versions of Debian/Ubuntu without lsb_release command
+        . /etc/lsb-release
+        OS=$DISTRIB_ID
+        VER=$DISTRIB_RELEASE
+    elif [ -f /etc/debian_version ]; then
+        # Older Debian/Ubuntu/etc.
+        OS=debian
+        VER=$(cat /etc/debian_version)
+    else
+        zenity --error --width 300 --text="Could not find Tesseract OSD package (unknown distribution)"
+        exit 1
+    fi
+
+
+    if [[ "${OS}" =~ ^[Ff]edora$ ]]; then
+        rpm -ql tesseract-osd |  grep traineddata
+    elif [[ "${OS}" =~ ^[Uu]buntu$ ]]; then
+        dpkg -L tesseract-ocr-osd | grep traineddata
+    elif [[ "${OS}" =~ ^[Dd]ebian$ ]]; then
+        dpkg -L tesseract-ocr-osd | grep traineddata
+    else
+        zenity --error --width 300 --text="Operating system '${OS}' not supported yet."
+        exit 1
+    fi
+
 }
 
 check_files() {
