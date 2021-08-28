@@ -67,4 +67,4 @@ has finished. If you want to close the dialog automatically, just [uncomment the
 
 # Contributors
 
-- @errotu: Debian support
+- @errotu: Ubuntu support
