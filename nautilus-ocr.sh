@@ -74,6 +74,9 @@ get_tesseract_osd_data_path() {
         # Older Debian/Ubuntu/etc.
         OS=debian
         VER=$(cat /etc/debian_version)
+    elif type pacman >/dev/null 2>&1; then
+        OS=arch
+        VER=$(pacman -Q tesseract-data-osd | awk '{print $2}')       
     else
         zenity --error --width 300 --text="Could not find Tesseract OSD package (unknown distribution)"
         exit 1
@@ -86,6 +89,8 @@ get_tesseract_osd_data_path() {
         dpkg -L tesseract-ocr-osd | grep traineddata
     elif [[ "${OS}" =~ ^[Dd]ebian$ ]]; then
         dpkg -L tesseract-ocr-osd | grep traineddata
+    elif [[ "${OS}" =~ ^[Aa]rch$ ]]; then
+        pacman -Ql tesseract-data-osd | grep traineddata
     else
         zenity --error --width 300 --text="Operating system '${OS}' not supported yet."
         exit 1
